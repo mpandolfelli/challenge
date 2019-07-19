@@ -2,11 +2,11 @@
 	<div fxLayoutAlign="end start" fxFlex fxLayout="column" fxLayoutGap="10px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
 		<mat-toolbar color="primary">
 			<mat-toolbar-row>
-				<span>Third Line</span>
+				<span><img src="assets/images/aerolab-logo.svg"> aeroStore</span>
 				<span class="example-spacer"></span>
 				{{user.points}} <mat-icon class="example-icon" aria-hidden="false">monetization_on</mat-icon>
 				<button mat-icon-button [matMenuTriggerFor]="menu">
-					{{user.name}} <mat-icon>more_vert</mat-icon>
+					{{user.name}}
 				</button>
 				<mat-menu #menu="matMenu">
 					<button mat-menu-item>
