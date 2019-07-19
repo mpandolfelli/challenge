@@ -1,0 +1,19 @@
+.hero{
+	background-color: #15dbff;
+	div{
+		background-image: url('../../assets/images/header.png');
+		background-position: right;
+		background-repeat: no-repeat;
+		background-size: contain;
+		padding: 15px 0;
+		min-height: 350px;
+		h2{
+			color: #fff;
+			font-size: 52px;
+		}
+	}
+}
+
+.categories{
+	padding: 15px 0;
+}
