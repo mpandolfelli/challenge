@@ -9,17 +9,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatSliderModule} from '@angular/material/slider';
 import {MatIconModule} from '@angular/material/icon';
 import { StoreComponent } from './store/store.component';
 import { ItemComponent } from './item/item.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { FilterPipe } from './filter.pipe';
+import { DifferencePipe } from './difference.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     StoreComponent,
-    ItemComponent
+    ItemComponent,
+    FilterPipe,
+    DifferencePipe
   ],
   imports: [
     BrowserModule,
@@ -30,8 +36,10 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatToolbarModule,
     MatIconModule,
     MatPaginatorModule,
+    FormsModule,
     MatChipsModule,
     MatMenuModule,
+    MatSliderModule,
     FlexLayoutModule,
     MatCardModule,
     ContentLoaderModule

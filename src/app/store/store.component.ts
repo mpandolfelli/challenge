@@ -19,8 +19,14 @@ export class StoreComponent implements OnInit {
 	ghosts = new Array(8).fill('');
 	items: any;
 	ready: Array<Item> = [];
-	categories: Array<any> = [];
+	filterCategories: Array<any> = [];
+	filterPoints: Array<number> = [];
 	user: Array<User>;
+	filters: any = { category: "", points: 0 };
+	category: string = '';
+	points: number;
+	maxPoints: number;
+	minPoints: number;
 
 	constructor(
 		private api: ApiService
@@ -28,42 +34,67 @@ export class StoreComponent implements OnInit {
 
 	ngOnInit() {
 		this.api.getProducts().pipe(
-				tap(() => this.ghosts = [])   // clear ghosts
-		).subscribe(data =>{
-			this.items = data;
-			this.ghosts = this.items.slice(0, 8);
-			this.ghosts.map(
-				o =>{
-					o.show = false;
-					if(!this.categories.includes(o.category)){
-						this.categories.push(o.category);
-					}
-					
-				});
-			
-		});
+			tap(() => this.ghosts = []) 
+			).subscribe(data =>{
+				this.items = data;
+				
+				this.items.map(
+					o =>{
+						o.show = false;
+						//Guardo las categorias para armar el filtro
+						if(!this.filterCategories.includes(o.category)){
+							this.filterCategories.push(o.category);
+						}
+						//Guardo los puntos para armar el filtro
+						if(!this.filterPoints.includes(o.cost)){
+							this.filterPoints.push(o.cost);
+						}
+					});
+				this.ghosts = this.items.slice(0, 8);
 
-		this.api.getUserInfo().subscribe(data =>{
-			this.user = data;
-		});
-			
+				//Seteo valores máximos y mínimos para el filtro de puntos
+				this.maxPoints = Math.max.apply(null, this.filterPoints);
+				this.minPoints = Math.min.apply(null, this.filterPoints);
+				this.filters.points = this.maxPoints;
+			});
 
-
-	}
-	hasProp(productId) {
-
-		if(this.ready.includes(productId)){
-			return true;
-		}else{
-			return false;
+			this.api.getUserInfo().subscribe(data =>{
+				this.user = data;
+			});
 		}
-		
-	}	
-	onPageChange($event) {
-		this.ghosts =  this.items.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
-	}
 
-	ver(productId){
-		this.ready.push(productId);
+		/**
+		 * Determina si una imagen ya esta cargada
+		 * @param {[number]} productId
+		 */
+		isReady(productId) {
+
+			if(this.ready.includes(productId)){
+				return true;
+			}else{
+				return false;
+			}
+
+		}	
+
+
+		onPageChange($event) {
+			this.ghosts =  this.items.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
+		}
+
+		/**
+		 * Setea una imagen como cargada
+		 * @param {[number]} productId 
+		 */
+		setReady(productId){
+			this.ready.push(productId);
+		}
+
+		/**
+		 * Actualiza el valor del filtro
+		 * @param {[object]} filters [description]
+		 */
+		updateFilters(filters){
+			this.filters = Object.assign({}, filters);
+		}
 	}
-}
