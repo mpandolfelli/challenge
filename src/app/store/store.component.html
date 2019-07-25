@@ -3,22 +3,106 @@
 		<h2>Tecnología</h2>
 	</div>	
 </div>
-<div fxLayoutAlign="end start">
-	<div fxFlex fxLayout="column" fxLayoutGap="10px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
+<div fxLayoutAlign="end start" class="container">
+	<div fxFlex fxLayout="column" fxLayoutGap="15px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
+		<div fxLayout="row" fxLayoutAlign="start start">
+
+
+			<div class="nav-sidebar" fxFlex="230px" fxLayout="column" fxLayout.sm="row" fxFlex.sm="100">
+				
+				<div class="filter-box">
+					<h3>Sort by price</h3>
+					<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+						<mat-button-toggle (click)="setOrder('asc')" selected class="active">Lowest price</mat-button-toggle>
+						<mat-button-toggle (click)="setOrder('desc')">Highest price</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+				<div *ngIf="filterPoints" class="filter-box">
+					<h3>Filter by points</h3>
+					<strong>{{minPoints}}</strong>
+					<mat-slider color="primary" class="example-margin" [max]="maxPoints" [min]="minPoints" [value]="maxPoints" [(ngModel)]="points" (change)="filterByPoints()"></mat-slider>
+
+					<strong>{{maxPoints}}</strong>
+					<div class="filter-points">Filter {{points}} points</div>
+				</div>
+				
+				<div class="categories filter-box" *ngIf="filterCategories">
+					<h3>Filter by category</h3>
+					<mat-chip-list>
+						<mat-chip (click)="filterByCategory('')" color="primary" selected>All</mat-chip>
+						<mat-chip *ngFor="let category of filterCategories" (click)="filterByCategory(category)">{{category}}</mat-chip>
+					</mat-chip-list>
+				</div> 
+			</div>
+
+
+			<div class="main-content" fxFlex fxLayout="column"  fxLayout.sm="row" fxFlex.sm="100">
+				<div fxLayout="row wrap">
+					<div *ngFor="let ghost of ghosts | filter: filteredCategory:filteredPoints | sort: 'cost':orderBy" fxFlex="25" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" fxLayout="column" style="padding: 5px;">
+						<content-loader height="300" speed="2" *ngIf="!isReady(ghost._id)">
+							<svg:rect x="0" y="0" rx="3" ry="3" width="100%"  />
+						</content-loader>
+						<content-loader speed="2" *ngIf="!ghost" primaryColor="#ccc">
+							<svg:rect x="20" y="60" rx="3" ry="3" width="250" height="10" />
+							<svg:rect x="20" y="80" rx="3" ry="3" width="200" height="10" />
+							<svg:rect x="20" y="100" rx="3" ry="3" width="80" height="10" />
+						</content-loader>
+						<ng-container>
+							<mat-card class="example-card" *ngIf="ghost" (mouseenter) ="onHover(ghost._id)"  (mouseleave) ="onHover(-1)">
+								<div *ngIf="ghost.cost <= user?.points" class="redeem-icon">
+									<mat-icon>shopping_basket</mat-icon>
+
+								</div>
+								<div class="item-cost"><img src="assets/images/coin.svg" width="25" />{{ghost.cost}}</div>
+								<img mat-card-image src="{{ghost.img.url}}" alt="{{ghost.name}}" (load)="setReady(ghost._id);">
+								<mat-card-header>
+									<mat-card-title>{{ghost.name}}</mat-card-title>
+									<mat-card-subtitle>{{ghost.category}}</mat-card-subtitle>
+								</mat-card-header>
+								<mat-card-footer>
+									
+									<div *ngIf="ghost.cost > user?.points">
+										<div>You need {{ ghost.cost | difference: user?.points }}</div>
+									</div>
+									
+								</mat-card-footer>
+								<div *ngIf="ghost._id == hoverIndex" class="card-overlay">
+
+									<div class="item-info">{{ ghost.cost }} <img src="assets/images/coin.svg" /></div>
+									<button mat-flat-button color="primary" (click)="redeem(ghost._id)">Redeem now</button>
+								</div>
+
+							</mat-card>
+						</ng-container>	
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
 		<div class="categories" *ngIf="filterCategories">
 			<mat-chip-list>
-				<mat-chip *ngFor="let category of filterCategories" (click)="updateFilters({category: category})">{{category}}</mat-chip>
+				<mat-chip (click)="filterByCategory('')" color="primary" selected>All</mat-chip>
+				<mat-chip *ngFor="let category of filterCategories" (click)="filterByCategory(category)">{{category}}</mat-chip>
 			</mat-chip-list>
 		</div>   
 		<div *ngIf="filterPoints">
 			{{minPoints}}
-			<mat-slider class="example-margin" [max]="maxPoints" [min]="minPoints" [value]="maxPoints" [(ngModel)]="filters.points" (change)="updateFilters({points: filters.points})"></mat-slider>
+			<mat-slider class="example-margin" [max]="maxPoints" [min]="minPoints" [value]="maxPoints" [(ngModel)]="points" (change)="filterByPoints()"></mat-slider>
 
 			{{maxPoints}}
-			<div>Filtrando hasta {{filters.points}} puntos</div>
+			<div>Filter {{points}} points</div>
+		</div>
+		<div>
+			Sort by price
+			<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+				<mat-button-toggle (click)="setOrder('asc')">Lowest price</mat-button-toggle>
+				<mat-button-toggle (click)="setOrder('desc')">Highest price</mat-button-toggle>
+			</mat-button-toggle-group>
 		</div>
 		<div fxLayout="row wrap" >
-			<div *ngFor="let ghost of ghosts | filter: filters.category:filters.points" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100" fxLayout="column" style="padding: 5px;">
+			<div *ngFor="let ghost of ghosts | filter: filteredCategory:filteredPoints | sort: 'cost':orderBy" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100" fxLayout="column" style="padding: 5px;">
 				<content-loader height="250" speed="2" *ngIf="!isReady(ghost._id)">
 					<svg:rect x="0" y="0" rx="3" ry="3" width="100%"  />
 				</content-loader>
@@ -36,7 +120,7 @@
 							<mat-card-subtitle>{{ghost.category}}</mat-card-subtitle>
 						</mat-card-header>
 						<mat-card-footer>
-							<div *ngIf="ghost.cost <= user?.points">
+							<div *ngIf="ghost.cost <= user?.points" (click)="redeem(ghost)">
 								<mat-icon>shopping_cart</mat-icon>
 							</div>
 							<div *ngIf="ghost.cost > user?.points">
@@ -48,7 +132,7 @@
 					</mat-card>
 				</ng-container>	
 			</div>
-			<mat-paginator (page)="onPageChange($event)" [length]="100"	[pageSize]="8" [pageSizeOptions]="[8, 16, 24, 32]"></mat-paginator>
+			
 		</div>
 	</div>
 </div>

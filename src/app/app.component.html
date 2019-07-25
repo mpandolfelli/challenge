@@ -2,24 +2,20 @@
 	<div fxLayoutAlign="end start" fxFlex fxLayout="column" fxLayoutGap="10px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
 		<mat-toolbar color="primary">
 			<mat-toolbar-row>
-				<span><img src="assets/images/aerolab-logo.svg"> aeroStore</span>
+				<span><img src="assets/images/aerolab-logo.svg"></span>
 				<span class="example-spacer"></span>
-				{{user?.points}} <mat-icon class="example-icon" aria-hidden="false">monetization_on</mat-icon>
+				<div class="navbar-points"><img src="assets/images/coin.svg" />{{user?.points}} </div>
 				<button mat-icon-button [matMenuTriggerFor]="menu">
 					{{user?.name}}
 				</button>
 				<mat-menu #menu="matMenu">
-					<button mat-menu-item>
-						<mat-icon>dialpad</mat-icon>
-						<span>Redial</span>
+					<button mat-menu-item routerLink="profile">
+						<mat-icon>person</mat-icon>
+						<span>Profile</span>
 					</button>
 					<button mat-menu-item disabled>
 						<mat-icon>voicemail</mat-icon>
-						<span>Check voice mail</span>
-					</button>
-					<button mat-menu-item>
-						<mat-icon>notifications_off</mat-icon>
-						<span>Disable alerts</span>
+						<span>History</span>
 					</button>
 				</mat-menu>
 			</mat-toolbar-row>

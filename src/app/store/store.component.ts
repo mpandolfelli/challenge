@@ -1,35 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger } from '@angular/animations';
-import { fadeIn, fadeOut } from '../utils/item.animation';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { RouterModule, Routes } from '@angular/router';
 import { ApiService } from '../api.service';
 import { tap, map } from 'rxjs/operators';
 import { Item } from '../models/item.model';
 import { User } from '../models/user.model';
 
+
 @Component({
 	selector: 'app-store',
 	templateUrl: './store.component.html',
-	animations: [
-	trigger('fadeOut', fadeOut()),
-	trigger('fadeIn', fadeIn()) 
-	],
+
 	styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
-	ghosts = new Array(8).fill('');
+	ghosts = new Array(12).fill('');
 	items: any;
 	ready: Array<Item> = [];
 	filterCategories: Array<any> = [];
+	messages: any;
 	filterPoints: Array<number> = [];
 	user: Array<User>;
-	filters: any = { category: "", points: 0 };
+	filteredCategory: string = "";
+	filteredPoints: number;
 	category: string = '';
 	points: number;
 	maxPoints: number;
 	minPoints: number;
-
+	orderBy: string = 'asc' ;
+	hoverIndex:number = -1;
 	constructor(
-		private api: ApiService
+		private api: ApiService,
+		private snackBar: MatSnackBar,
+		private router: RouterModule
 		) { }
 
 	ngOnInit() {
@@ -50,12 +53,14 @@ export class StoreComponent implements OnInit {
 							this.filterPoints.push(o.cost);
 						}
 					});
-				this.ghosts = this.items.slice(0, 8);
+				//this.ghosts = this.items.slice(0, 8);
+				this.ghosts = this.items;
 
 				//Seteo valores máximos y mínimos para el filtro de puntos
 				this.maxPoints = Math.max.apply(null, this.filterPoints);
 				this.minPoints = Math.min.apply(null, this.filterPoints);
-				this.filters.points = this.maxPoints;
+				this.filteredPoints = this.maxPoints;
+				this.points = this.maxPoints;
 			});
 
 			this.api.getUserInfo().subscribe(data =>{
@@ -67,34 +72,55 @@ export class StoreComponent implements OnInit {
 		 * Determina si una imagen ya esta cargada
 		 * @param {[number]} productId
 		 */
-		isReady(productId) {
+		 isReady(productId) {
 
-			if(this.ready.includes(productId)){
-				return true;
-			}else{
-				return false;
-			}
+		 	if(this.ready.includes(productId)){
+		 		return true;
+		 	}else{
+		 		return false;
+		 	}
 
-		}	
+		 }	
+		 onHover(i:number){
+		 	this.hoverIndex = i;
+		 }
 
 
-		onPageChange($event) {
-			this.ghosts =  this.items.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
-		}
 
 		/**
 		 * Setea una imagen como cargada
 		 * @param {[number]} productId 
 		 */
-		setReady(productId){
-			this.ready.push(productId);
-		}
+		 setReady(productId){
+		 	this.ready.push(productId);
+		 }
 
 		/**
-		 * Actualiza el valor del filtro
+		 * Actualiza el valor del filtro de categorias
 		 * @param {[object]} filters [description]
 		 */
-		updateFilters(filters){
-			this.filters = Object.assign({}, filters);
+		 filterByCategory(category){
+		 	this.filteredCategory = category;
+		 }
+		 filterByPoints(){
+		 	this.filteredPoints = this.points;
+		 }
+
+		 setOrder(order){
+
+		 	this.orderBy = order;
+		 }
+
+		 redeem(itemId){
+
+		 	this.api.redeem(itemId).subscribe(data =>{
+		 		this.messages = data;
+				this.snackBar.open(this.messages.message, 'OK', {
+				  duration: 2000,
+				});
+
+				this.router.navigate['history'];
+		 		
+		 	})
+		 }
 		}
-	}

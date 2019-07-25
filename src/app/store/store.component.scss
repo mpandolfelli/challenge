@@ -13,7 +13,86 @@
 		}
 	}
 }
-
+.mat-card-title{
+	height: 51px;
+}
+.redeem-icon{
+	position: absolute;
+	background-color: #15dbff;
+	color: #fff;
+	font-size: 22px;
+	padding: 8px 11px;
+	border-radius: 50%;
+	right: 10px;
+	top: 10px;
+}
 .categories{
 	padding: 15px 0;
+}
+.card-overlay{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 9;
+	display: flex;
+	justify-content: center;	
+	align-items: center;
+	flex-direction: column;
+	background-color: rgba(21, 219, 225, .8);
+
+	button{
+		margin-top: 10px;
+		width: 120px;
+	}
+	.item-info{
+		font-size: 30px;
+		font-weight: 600;
+		color: #fff;
+		img{
+			float: right;
+			margin-left: 8px;
+		}
+	}
+
+
+}
+.item-cost{
+		font-size: 20px;
+		font-weight: 600;
+		color: #555;
+		img{
+			float: left;
+		}
+	}
+.mat-card{
+	cursor: pointer;
+	box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+	&:hover{
+		box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12)
+	}
+
+}
+.mat-chip{
+	cursor: pointer;
+}
+.nav-sidebar{
+	padding-right: 15px;
+}
+.mat-button-toggle{
+	font-size: 12px;
+	padding: 0;
+}
+
+.filter-box{
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+.filter-points{
+	font-size: 12px
+}
+.container{
+	margin-top: 60px;
 }
