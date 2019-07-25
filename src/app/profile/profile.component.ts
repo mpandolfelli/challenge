@@ -10,6 +10,7 @@ import { ApiService } from '../api.service';
 export class ProfileComponent implements OnInit {
 
 	user: Array<User>;
+	history: Array<any> = [];
 	constructor(
 		private api: ApiService
 		) { }
@@ -17,9 +18,6 @@ export class ProfileComponent implements OnInit {
 	ngOnInit() {
 		this.api.getUserInfo().subscribe(data =>{
 			this.user = data;
-		});
-		this.api.getHistory().subscribe(data =>{
-			console.log(data);
 		});
 	}
 

@@ -15,6 +15,7 @@
 }
 .mat-card-title{
 	height: 51px;
+	font-size: 18px;
 }
 .redeem-icon{
 	position: absolute;
@@ -56,8 +57,13 @@
 		}
 	}
 
-
+	.difference{
+		font-size: 30px;
+		font-weight: 600;
+		color: #fff;
+	}
 }
+
 .item-cost{
 		font-size: 20px;
 		font-weight: 600;

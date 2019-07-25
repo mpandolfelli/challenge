@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { ApiService } from '../api.service';
 import { tap, map } from 'rxjs/operators';
 import { Item } from '../models/item.model';
@@ -32,7 +32,7 @@ export class StoreComponent implements OnInit {
 	constructor(
 		private api: ApiService,
 		private snackBar: MatSnackBar,
-		private router: RouterModule
+		private router: Router
 		) { }
 
 	ngOnInit() {
@@ -107,7 +107,6 @@ export class StoreComponent implements OnInit {
 		 }
 
 		 setOrder(order){
-
 		 	this.orderBy = order;
 		 }
 
@@ -118,9 +117,8 @@ export class StoreComponent implements OnInit {
 				this.snackBar.open(this.messages.message, 'OK', {
 				  duration: 2000,
 				});
-
-				this.router.navigate['history'];
-		 		
+				this.router.navigate(['/profile']);
+				
 		 	})
 		 }
 		}

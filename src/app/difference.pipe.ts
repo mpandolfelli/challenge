@@ -6,9 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DifferencePipe implements PipeTransform {
 
   transform(value: any, points: number): any {
-    console.log(value);
-    console.log(points);
-    return null;
+    if(value > points){
+    	return value - points;
+    }
   }
 
 }

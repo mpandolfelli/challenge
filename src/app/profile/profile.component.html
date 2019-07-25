@@ -1,1 +1,38 @@
-<p>profile works!</p>
+<div class="hero">
+	<div fxLayoutAlign="end start" fxFlex fxLayout="column" fxLayoutGap="10px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
+		<h2><a routerLink="/" class="link"><mat-icon>chevron_left</mat-icon> Back to Store</a></h2>
+	</div>	
+</div>
+<div fxLayoutAlign="end start" class="container">
+	<div fxFlex fxLayout="column" fxLayoutGap="15px"  fxFlex.gt-xs="540px" fxFlex.gt-sm="720px" fxFlex.gt-md="1140px" fxFlex.gt-lg="1140px" style="margin: auto">
+		<div fxLayout="row" fxLayoutAlign="start start" fxLayout.xs="column">
+			<div class="nav-sidebar" fxFlex="230px" fxLayout="column" fxFlex.xs="100" fxFlex.xs="100%" >
+				<h3>Profile</h3>
+				<div class="profile" *ngIf="user">
+
+					<div class="avatar"><mat-icon mat-list-icon>person</mat-icon></div>
+					<div class="info">
+						<div class="name">{{user.name}}</div>
+						<div class="points"><img src="assets/images/coin.svg" /> {{user.points}}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="main-content redeem-list" fxFlex fxLayout="column"  fxFlex.xs="100" fxFlex.xs="100%">
+				<h3>Redeems history</h3>
+				<mat-list *ngIf="user">
+					
+					<mat-list-item *ngFor="let redeem of user.redeemHistory">
+						<mat-icon mat-list-icon>shopping_basket</mat-icon>
+						<h4 mat-line>{{redeem.name}}</h4>
+						<p mat-line> {{redeem.category}} </p>
+						<p mat-line> {{redeem.createDate | date: 'medium'}} </p>
+						<div class="cost"><img src="assets/images/coin.svg" /> {{redeem.cost}}</div>
+						<mat-divider></mat-divider>
+					</mat-list-item>
+					
+				</mat-list>
+			</div>
+		</div>
+	</div>
+</div>

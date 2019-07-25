@@ -1,0 +1,71 @@
+.redeem-list{
+	h4{
+		font-weight: bold!important;
+	}
+
+	.cost{
+		width: 120px;
+		text-align: left;
+		font-size: 18px;
+		font-weight: bold;
+		img{
+			float: left;
+			margin-top: -2px;
+			width: 25px;
+		}
+	}
+}
+
+
+.profile{
+	background-color: #fff;
+	padding: 15px;
+	text-align: center;
+	.avatar{
+		margin: auto;
+		background-color: #15dbff;
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		text-align: center;
+		.mat-icon{
+			padding-top: 33px;
+			margin-left: -58px;
+			font-size: 80px;
+			color: #fff;
+		}
+
+	}
+
+	.info{
+		margin-top: 15px;
+		font-weight: bold;
+		.points{
+			width: 80px;
+			margin: auto;
+			margin-top: 15px;
+			img{
+				float: left;
+				margin-top: -2px;
+				width: 25px;
+			}
+		}
+	}
+}
+
+
+.redeem-list{
+	padding: 0px 30px;
+}
+
+.link{
+	color: #000;
+	.mat-icon{
+		float: left;
+		color: #15dbff;
+		margin-right: 10px;
+		font-size: 30px;
+		font-weight: bold;
+	}
+	text-decoration: none;
+}
